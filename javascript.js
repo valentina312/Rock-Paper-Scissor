@@ -51,11 +51,11 @@ Every loop should prompt the user,
 show the result with console log
 and keep the score */
 function game () {
+    var playerScore = 0;
+    var computerScore= 0;
     for (let i = 0; i < 5; i++) {
         let playerInput = prompt('Make your choice. Write rock, paper or scissors.');
         let computer = getComputerChoice();
-        var playerScore = 0;
-        var computerScore= 0;
         let round = playRound(playerInput, computer);
         console.log(playerInput);
         console.log(computer);
@@ -71,9 +71,11 @@ function game () {
     }
     if (playerScore > computerScore) {
         return 'Congratulations! You win.';
+    } else if (playerScore == computerScore) {
+        return 'It\'s a tie!';
     } else {
         return 'Oh no, you lost! Try again.';
     }
 }
 
-game();
+console.log(game());
