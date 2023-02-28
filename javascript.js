@@ -29,17 +29,19 @@ and computerSelection and return a string
 that declares the winner */
 function playRound (playerSelection, computerSelection) {
     let player = playerSelection.toLowerCase();
+    var result;
     if (player == 'rock' && computerSelection == 'scissors') {
-        return 'p';
+        result = 'p';
     } else if (player == 'scissors' && computerSelection == 'paper') {
-        return 'p';
+        result = 'p';
     } else if (player == 'paper' && computerSelection == 'rock') {
-        return 'p';
+        result = 'p';
     } else if (player == computerSelection) {
-        return 't';
+        result = 't';
     } else {
-        return 'c';
+        result = 'c';
     }
+    return result;
 }
 
 
@@ -52,17 +54,19 @@ function game () {
     for (let i = 0; i < 5; i++) {
         let playerInput = prompt('Make your choice. Write rock, paper or scissors.');
         let computer = getComputerChoice();
-        let playerScore;
-        let computerScore;
-        playRound(playerInput, computer);
-        if (playRound == 'p') {
+        var playerScore = 0;
+        var computerScore= 0;
+        let round = playRound(playerInput, computer);
+        console.log(playerInput);
+        console.log(computer);
+        if (round == 'p') {
             console.log(`You win, ${playerInput} beats ${computer}.`);
-            ++playerScore;
-        } else if (playRound == 't') {
+            playerScore++;
+        } else if (round == 't') {
             console.log('It\'s a tie, play again');
         } else {
             console.log(`You lose. ${computer} beats ${playerInput}`);
-            ++computerScore;
+            computerScore++;
         }   
     }
     if (playerScore > computerScore) {
@@ -72,4 +76,4 @@ function game () {
     }
 }
 
-
+game();
