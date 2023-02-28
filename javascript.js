@@ -36,11 +36,18 @@ function playRound (playerSelection, computerSelection) {
     } else if (player == 'paper' && computerSelection == 'rock') {
         return 'You win. Paper beats rock';
     } else if (player == computerSelection) {
-        return 'It\'s a tie. PLay again'
+        return 'It\'s a tie. Play again';
     } else {
-        return `You lose. ${computerSelection} beats ${player}`
+        /* Convert first letter of computerSelecton to uppercase */
+        return `You lose. ${computerSelection.replace(computerSelection.charAt(0), computerSelection.charAt(0).toUpperCase())} beats ${player}`;
     }
 }
+
+const playerSelection = 'rock';
+const computerSelection = getComputerChoice();
+console.log(computerSelection);
+console.log(playRound(playerSelection, computerSelection));
+
 
 /* Function called game that calls
 playRound to play 5 games with a for loop.
