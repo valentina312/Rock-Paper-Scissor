@@ -1,9 +1,15 @@
+/* Function that choose a random int from interval
+max and min included */
+function randomIntFromInterval(min, max) { 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
 /* Simulate the computer random
 choice of rock paper or scissors
 */
 
 function getComputerChoice () {
-
+    return randomIntFromInterval(1, 3);
 }
 
 /* Function  called playRound
