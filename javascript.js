@@ -28,7 +28,18 @@ it takes as parameters playerSelection
 and computerSelection and return a string
 that declares the winner */
 function playRound (playerSelection, computerSelection) {
-
+    let player = playerSelection.toLowerCase();
+    if (player == 'rock' && computerSelection == 'scissors') {
+        return 'You win. Rock beats scissors';
+    } else if (player == 'scissors' && computerSelection == 'paper') {
+        return 'You win. Scissors beats paper';
+    } else if (player == 'paper' && computerSelection == 'rock') {
+        return 'You win. Paper beats rock';
+    } else if (player == computerSelection) {
+        return 'It\'s a tie. PLay again'
+    } else {
+        return `You lose. ${computerSelection} beats ${player}`
+    }
 }
 
 /* Function called game that calls
