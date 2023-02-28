@@ -54,7 +54,13 @@ function game () {
     var playerScore = 0;
     var computerScore= 0;
     for (let i = 0; i < 5; i++) {
-        let playerInput = prompt('Make your choice. Write rock, paper or scissors.');
+        let keepGoing = true;
+        while (keepGoing) {
+            var playerInput = (prompt('Make your choice. Write rock, paper or scissors.')).toLowerCase();
+            if (playerInput == 'rock' || playerInput == 'paper' || playerInput == 'scissor') {
+                keepGoing = false;
+            }
+        }
         let computer = getComputerChoice();
         let round = playRound(playerInput, computer);
         console.log(playerInput);
