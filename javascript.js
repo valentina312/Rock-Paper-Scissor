@@ -1,3 +1,34 @@
+var playerScore = 0;
+var computerScore = 0;
+
+// Selecting the rock paper scissor buttons
+const btn = document.querySelectorAll('#choice');
+
+// Prepare the elements that will appear on the page with the result
+const newDiv = document.createElement('div');
+newDiv.style.paddingTop = '20px';
+const winnerPara = document.createElement('p');
+
+// Prepare the reload button to play again
+const reloadBtn = document.createElement('button');
+reloadBtn.setAttribute('class', 'reload');
+reloadBtn.textContent = 'Play again.'
+reloadBtn.setAttribute('onClick', 'window.location.reload();')
+
+
+// Disable buttons to not allow multiple fire and tilt
+function disableButtons() {
+    btn.forEach(elem => {
+        elem.disabled = true
+    })
+}
+
+
+
+function enableButtons() {
+    btn.forEach(elem => elem.disabled = false);
+}
+
 /* Function that choose a random int from interval
 max and min included */
 function randomIntFromInterval(min, max) { 
@@ -7,7 +38,6 @@ function randomIntFromInterval(min, max) {
 /* Simulate the computer random
 choice of rock paper or scissors
 */
-
 function getComputerChoice () {
     let randomChoice = randomIntFromInterval(1, 3);
     let computerChoice
@@ -25,63 +55,62 @@ function getComputerChoice () {
 /* Function  called playRound
 that simulate a round
 it takes as parameters playerSelection
-and computerSelection and return a string
-that declares the winner */
-function playRound (playerSelection, computerSelection) {
-    let player = playerSelection.toLowerCase();
-    var result;
-    if (player == 'rock' && computerSelection == 'scissors') {
-        result = 'p';
-    } else if (player == 'scissors' && computerSelection == 'paper') {
-        result = 'p';
-    } else if (player == 'paper' && computerSelection == 'rock') {
-        result = 'p';
-    } else if (player == computerSelection) {
-        result = 't';
+return a string
+that declares the winner
+and the scores */
+function playRound (playerSelection) {
+    let computerSelection = getComputerChoice();
+    var result  = `You chose ${playerSelection}. Computer chose ${computerSelection}.\n`;
+    var scores = [];
+    if ((playerSelection == 'rock' && computerSelection == 'scissors') || 
+    (playerSelection == 'scissors' && computerSelection == 'paper') ||
+    (playerSelection == 'paper' && computerSelection == 'rock')) {
+        result += `You win, ${playerSelection} beats ${computerSelection}.`;
+        playerScore++;
+    } else if (playerSelection == computerSelection) {
+        result += `It\'s a tie. Try again`;
+    
     } else {
-        result = 'c';
+        result += `You lose, ${computerSelection} beats ${playerSelection}`;
+        computerScore++;
     }
-    return result;
+    scores.push(result, playerScore, computerScore);
+    return scores;
 }
 
 
-/* Function called game that calls
-playRound to play 5 games with a for loop.
-Every loop should prompt the user,
-show the result with console log
-and keep the score */
-function game () {
-    var playerScore = 0;
-    var computerScore= 0;
-    for (let i = 0; i < 5; i++) {
-        let keepGoing = true;
-        while (keepGoing) {
-            var playerInput = (prompt('Make your choice. Write rock, paper or scissors.')).toLowerCase();
-            if (playerInput == 'rock' || playerInput == 'paper' || playerInput == 'scissor') {
-                keepGoing = false;
-            }
-        }
-        let computer = getComputerChoice();
-        let round = playRound(playerInput, computer);
-        console.log(playerInput);
-        console.log(computer);
-        if (round == 'p') {
-            console.log(`You win, ${playerInput} beats ${computer}.`);
-            playerScore++;
-        } else if (round == 't') {
-            console.log('It\'s a tie, play again');
-        } else {
-            console.log(`You lose. ${computer} beats ${playerInput}`);
-            computerScore++;
-        }   
-    }
-    if (playerScore > computerScore) {
-        return 'Congratulations! You win.';
-    } else if (playerScore == computerScore) {
-        return 'It\'s a tie!';
+// Function to display scores and winner in case of one scores = 5
+function displayScore (array) {
+    let player = array[1];
+    let computer = array[2];
+    let output = array[0];
+
+    let para = `${output}.\n Current score is: Player ${player} - Computer ${computer}.`
+    newDiv.textContent = para;
+    document.body.appendChild(newDiv);
+
+    // In case of winner allow to play again by refreshing the page
+    if (player == 5) {
+        winnerPara.textContent = 'Game Over! You win!'
+        document.body.appendChild(winnerPara);
+        document.body.appendChild(reloadBtn);
+    } else if (computer == 5) {
+        winnerPara.textContent == 'Game Over! You lost.'
+        document.body.appendChild(winnerPara);
+        document.body.appendChild(reloadBtn);
     } else {
-        return 'Oh no, you lost! Try again.';
+        btn.forEach( elem => setTimeout(enableButtons, 3000));
     }
 }
+    
 
-console.log(game());
+/*  Listening for click on every button
+and playing a round with the player selection */ 
+btn.forEach( (item) => {
+    item.addEventListener('click', () => {
+        let playerSelect = item.getAttribute('class').toLowerCase();
+        disableButtons();
+        var roundResult = playRound(playerSelect);
+        displayScore(roundResult);    
+    })
+})
