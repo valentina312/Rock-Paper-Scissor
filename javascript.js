@@ -24,7 +24,6 @@ function disableButtons() {
 }
 
 
-
 function enableButtons() {
     btn.forEach(elem => elem.disabled = false);
 }
